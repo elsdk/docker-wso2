@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: '2.4'
+version: '3.8'
 services:
   mysql:
-    image: mysql:5.7.31
+    image: mysql:5.7.32
     ports:
       - 3306
     environment:
@@ -31,30 +31,15 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-proot"]
       interval: 30s
-      timeout: 60s
+      timeout: 75s
       retries: 5
-      start_period: 80s
-  am-analytics-worker:
-    build: ./dockerfiles/apim-analytics-worker
-    ports:
-      - "9091"
-      - "9444"
-    healthcheck:
-      test: ["CMD", "nc", "-z","localhost", "9444"]
-      interval: 10s
-      start_period: 20s
-      retries: 5
-    depends_on:
-      mysql:
-        condition: service_healthy
-    volumes:
-      - ./conf/apim-analytics-worker:/home/wso2carbon/wso2-config-volume
+      start_period: 90s
   is-as-km:
     build: ./dockerfiles/is-as-km
     healthcheck:
       test: ["CMD", "nc", "-z","localhost", "9443"]
       interval: 10s
-      start_period: 180s
+      start_period: 150s
       retries: 20
     depends_on:
       mysql:
@@ -68,8 +53,8 @@ services:
     healthcheck:
       test: ["CMD", "nc", "-z","localhost", "9443"]
       interval: 10s
-      start_period: 180s
-      retries: 20
+      start_period: 150s
+      retries: 15
     depends_on:
       mysql:
         condition: service_healthy
@@ -99,3 +84,18 @@ services:
         condition: service_healthy
     volumes:
       - ./conf/apim-analytics-dashboard:/home/wso2carbon/wso2-config-volume
+  am-analytics-worker:
+    build: ./dockerfiles/apim-analytics-worker
+    ports:
+      - "9091"
+      - "9444"
+    healthcheck:
+      test: ["CMD", "nc", "-z","localhost", "9444"]
+      interval: 10s
+      start_period: 20s
+      retries: 5
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./conf/apim-analytics-worker:/home/wso2carbon/wso2-config-volume

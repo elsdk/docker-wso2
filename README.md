@@ -30,8 +30,8 @@
 
    Please note that API Gateway will be available on following ports.
 
-   - [https://localhost:8243](https://localhost:8243)
-   - [https://localhost:8280](https://localhost:8280)
+   - HTTPS: [https://localhost:8243](https://localhost:8243)
+   - HTTP: [http://localhost:8280](http://localhost:8280)
 
    Access the WSO2 API Manager Analytics web UIs using the below URL via a web browser.
    
